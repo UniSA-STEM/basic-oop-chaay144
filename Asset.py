@@ -12,3 +12,18 @@ class Asset:
         self.name = name
         self.description = description
         self.encrypted = False
+
+    def encrypt(self):
+        """Marks the asset as encrypted."""
+        self.encrypted = True
+
+    def decrypt(self):
+        """Marks the asset as decrypted."""
+        self.encrypted = False
+
+    def display(self):
+        """Displays the asset information clearly."""
+        if self.encrypted:
+            print(f"{self.name}: {self.description} [Encrypted]")
+        else:
+            print(f"{self.name}: {self.description}")
