@@ -11,17 +11,19 @@ from abc import ABC, abstractmethod
 
 class Encryptable(ABC):
     """
-    Very small abstract base that says an object must be encryptable.
-    This keeps the design clear but stays simple for the assignment.
+    This is just a tiny abstract class I made to keep the code a bit more organised.
+
     """
 
     @property
     @abstractmethod
     def encrypted(self) -> bool:
+        # This makes sure that any class that inherits this has an 'encrypted' state
         raise NotImplementedError
 
     @abstractmethod
     def encrypt(self) -> None:
+        # This will be the method to lock or protect the asset
         raise NotImplementedError
 
     @abstractmethod
