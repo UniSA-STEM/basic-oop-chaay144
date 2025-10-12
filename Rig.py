@@ -46,3 +46,4 @@ class Rig:
             return
         self.storage.append(asset_obj)
         print("Success! Rig storage stored asset")
+
