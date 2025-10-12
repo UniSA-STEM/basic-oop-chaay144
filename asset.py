@@ -19,10 +19,10 @@ class Asset:
     def decrypt(self):
         self.encrypted = False
 
-    def display(self):#str name
+    def __str__(self):#str name
         if self.encrypted:
-            print(f"{self.name}: {self.description} [Encrypted]")
+            return f"{self.name}: {self.description} [Encrypted]"
         else:
-            print(f"{self.name}: {self.description}")
+            return f"{self.name}: {self.description}"
 
 

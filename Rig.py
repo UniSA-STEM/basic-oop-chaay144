@@ -25,3 +25,18 @@ class Rig:
         if self.damage == 0:
             return f"Pristine (Level {self.upgrade_level})"
         return f"Damaged (Level {self.upgrade_level})"
+
+    def __str__(self):
+        if not self.storage:
+            item_list = "Empty Rig"
+        else:
+            item_list = ""
+            i = 0
+            while i < len(self.storage):
+                item_list += self.storage[i].__str__()
+                if i < len(self.storage) - 1:
+                    item_list += ", "
+                i += 1
+
+        return f"Rig Name: {self.name} | {self.condition()} | Assets stored: {item_list}"
+
