@@ -19,3 +19,9 @@ class Rig:
                       Asset("Removable Drive", "Used to extract assets")
                       ]
 
+    def condition(self):
+        if self.broken:
+            return f"Broken (Level {self.upgrade_level})"
+        if self.damage == 0:
+            return f"Pristine (Level {self.upgrade_level})"
+        return f"Damaged (Level {self.upgrade_level})"
