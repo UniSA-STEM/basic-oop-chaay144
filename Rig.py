@@ -40,3 +40,9 @@ class Rig:
 
         return f"Rig Name: {self.name} | {self.condition()} | Assets stored: {item_list}"
 
+    def store(self, asset_obj: Asset):
+        if asset_obj.get_encrypted():
+            print("you have to decrypt asset before storing it")
+            return
+        self.storage.append(asset_obj)
+        print("Success! Rig storage stored asset")
