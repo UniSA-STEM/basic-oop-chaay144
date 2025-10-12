@@ -7,10 +7,6 @@ Username: chaay144
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 
-from Rig import Rig
-
-rig = Rig("Ansh")
-print(rig.__str__())
 
 
 
