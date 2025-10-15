@@ -14,13 +14,20 @@ class Asset:
         self.encrypted = False
 
     def encrypt(self):
-        self.encrypted = True
+        """Mark the asset as encrypted."""
+        if not self.encrypted:
+            self.encrypted = True
+            print(f"{self.name} is now encrypted.")
+        else:
+            print(f"{self.name} is already encrypted.")
 
     def decrypt(self):
-        self.encrypted = False
-
-    def get_encrypted(self):
-        return self.encrypted
+        """Mark the asset as decrypted."""
+        if self.encrypted:
+            self.encrypted = False
+            print(f"{self.name} has been decrypted.")
+        else:
+            print(f"{self.name} is already decrypted.")
 
     def __str__(self):#str name
         if self.encrypted:
