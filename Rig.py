@@ -28,20 +28,6 @@ class Rig:
         else:
             return f"Damaged (Level {self.upgrade_level})"
 
-    def __str__(self):
-        if not self.storage:
-            item_list = "Empty Rig"
-        else:
-            item_list = ""
-            i = 0
-            while i < len(self.storage):
-                item_list += self.storage[i].__str__()
-                if i < len(self.storage) - 1:
-                    item_list += ", "
-                i += 1
-
-        return f"Rig Name: {self.name} | {self.condition()} | Assets stored: {item_list}"
-
 
     def store_asset(self, asset):
         """Add an asset to rig storage (if not encrypted)."""
@@ -90,3 +76,11 @@ class Rig:
                 print(f"{self.name} is now broken!")
         else:
             print(f"{self.name} is already broken.")
+
+    def _str_(self):
+        """Readable string for the rig's status."""
+        stored = ", ".join([asset.name for asset in self.storage])
+        return (
+            f"Rig: {self.name} | {self.condition()} | "
+            f"Stored: [{stored if stored else 'Empty'}]"
+        )
