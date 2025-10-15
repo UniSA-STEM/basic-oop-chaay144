@@ -43,11 +43,11 @@ class Rig:
         return f"Rig Name: {self.name} | {self.condition()} | Assets stored: {item_list}"
 
 
-def store_asset(self, asset):
-    """Add an asset to rig storage (if not encrypted)."""
-    if asset.encrypted:
-        print(f"{asset.name} is encrypted and cannot be stored.")
-    else:
-        self.storage.append(asset)
-        print(f"{asset.name} stored in {self.name}.")
+    def store_asset(self, asset):
+        """Add an asset to rig storage (if not encrypted)."""
+        if asset.encrypt:
+            print(f"{asset.name} is encrypted and cannot be stored.")
+        else:
+            self.storage.append(asset)
+            print(f"{asset.name} stored in {self.name}.")
 
