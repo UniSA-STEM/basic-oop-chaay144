@@ -152,3 +152,49 @@ class Hacker:
         else:
             target_asset.encrypt()
         return True
+
+    def launch_data_spike(self, target: "Hacker"):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig to launch spike.")
+            return False
+
+        spike = rig_obj.release_asset("Data Spike")
+        if spike is None:
+            print("No Data Spike in rig.")
+            return False
+
+        self.__trace_level += 1
+        target_rig = target.get_rig()
+        if target_rig is not None:
+            target_rig.take_hit()
+            print(f"{self.get_name()} hit {target.get_name()}'s rig.")
+            if target_rig.is_broken():
+                self._extract_from_broken(target)
+        return True
+
+    def _extract_from_broken(self, target: "Hacker"):
+        rig_obj = self.get_rig()
+        target_rig = target.get_rig()
+
+        if rig_obj is None or target_rig is None:
+            return False
+
+        drive = rig_obj.release_asset("Removable Drive")
+        if drive is None:
+            print("No Removable Drive.")
+            return False
+
+        enemy_storage = target_rig.get_storage()
+        i = 0
+        while i < len(enemy_storage):
+            candidate = enemy_storage[i]
+            if candidate is not None and not candidate.encrypted:
+                stolen = enemy_storage.pop(i)
+                self.__inventory.append(stolen)
+                print(f"Extracted {stolen.get_name()} from {target.get_name()}.")
+                return True
+            i += 1
+
+        print("No unencrypted assets found.")
+        return False
