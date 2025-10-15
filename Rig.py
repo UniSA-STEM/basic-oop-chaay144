@@ -68,3 +68,13 @@ class Rig:
         """Increase the rig's upgrade level."""
         self.upgrade_level += 1
         print(f"{self.name} upgraded to Level {self.upgrade_level}.")
+
+    def repair(self):
+        """Repair the rig if damaged (cost logic handled by Hacker)."""
+        if self.broken or self.damage > 0:
+            self.damage = 0
+            self.broken = False
+            print(f"{self.name} has been repaired and is now functional.")
+        else:
+            print(f"{self.name} does not need repairs.")
+
