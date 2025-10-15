@@ -51,3 +51,15 @@ class Rig:
             self.storage.append(asset)
             print(f"{asset.name} stored in {self.name}.")
 
+    def release_asset(self, asset_name):
+        """Remove and return an asset from storage by name."""
+        for asset in self.storage:
+            if asset.name == asset_name:
+                if asset.encrypted:
+                    print(f"{asset.name} is encrypted and cannot be released.")
+                    return None
+                self.storage.remove(asset)
+                print(f"{asset.name} released from {self.name}.")
+                return asset
+        print(f"{asset_name} not found in {self.name}.")
+        return None
