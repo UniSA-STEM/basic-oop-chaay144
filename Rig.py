@@ -78,3 +78,15 @@ class Rig:
         else:
             print(f"{self.name} does not need repairs.")
 
+    def take_hit(self):
+        """Increase rig damage; mark broken if limit reached."""
+        if not self.broken:
+            self.damage += 1
+            print(f"{self.name} took a hit! Damage: {self.damage}")
+
+            # Simple rule: damage 2 breaks level 0 rig
+            if self.damage >= 2 + self.upgrade_level:
+                self.broken = True
+                print(f"{self.name} is now broken!")
+        else:
+            print(f"{self.name} is already broken.")
