@@ -41,3 +41,15 @@ class Hacker:
 
     def set_rig(self, rig_obj):
         self.__rig = rig_obj
+
+    def _pick_item(self, asset_name):
+        i = 0
+        while i < len(self.__inventory):
+            current = self.__inventory[i]
+            if current is not None and current.get_name() == asset_name:
+                return self.__inventory.pop(i)
+            i += 1
+        return None
+
+    def _blocked(self):
+        return self.__trace_level > TRACE_LIMIT
