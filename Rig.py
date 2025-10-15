@@ -28,14 +28,18 @@ class Rig:
         else:
             return f"Damaged (Level {self.upgrade_level})"
 
-
     def store_asset(self, asset):
-        """Add an asset to rig storage (if not encrypted)."""
+        """
+        Add an asset to rig storage (if not encrypted).
+        Returns True if stored, False if blocked.
+        """
         if asset.encrypt:
             print(f"{asset.name} is encrypted and cannot be stored.")
-        else:
-            self.storage.append(asset)
-            print(f"{asset.name} stored in {self.name}.")
+            return False
+
+        self.storage.append(asset)
+        print(f"{asset.name} stored in {self.name}.")
+        return True
 
     def release_asset(self, asset_name):
         """Remove and return an asset from storage by name."""
