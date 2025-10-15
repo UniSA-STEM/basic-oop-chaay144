@@ -43,7 +43,7 @@ class Rig:
 
     def release_asset(self, asset_name):
         """Remove and return an asset from storage by name."""
-        for asset in list(self.storage):
+        for asset in self.storage:
             if asset.name == asset_name:
                 if asset.encrypt:
                     print(f"{asset.name} is encrypted and cannot be released.")
