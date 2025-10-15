@@ -14,7 +14,7 @@ class Rig:
         self.damage = 0
         self.broken = False
         self.upgrade_level = 0
-        self.storage=[Asset("Data spike","used in"),
+        self.storage=[Asset("Data spike","Used in attacks"),
                       Asset("Data Spike", "Used in attacks"),
                       Asset("Removable Drive", "Used to extract assets")
                       ]
@@ -39,9 +39,9 @@ class Rig:
 
     def release_asset(self, asset_name):
         """Remove and return an asset from storage by name."""
-        for asset in self.storage:
+        for asset in list(self.storage):
             if asset.name == asset_name:
-                if asset.encrypted:
+                if asset.encrypt:
                     print(f"{asset.name} is encrypted and cannot be released.")
                     return None
                 self.storage.remove(asset)
@@ -77,7 +77,7 @@ class Rig:
         else:
             print(f"{self.name} is already broken.")
 
-    def _str_(self):
+    def __str__(self):
         """Readable string for the rig's status."""
         stored = ", ".join([asset.name for asset in self.storage])
         return (
