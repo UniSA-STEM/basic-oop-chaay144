@@ -9,31 +9,43 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 
 class Asset:
     def __init__(self, name, description):
-        self.name = name
-        self.description = description
-        self.encrypted = False
+        self.__name = name
+        self.__description = description
+        self.__encrypted = False
 
     def encrypt(self):
         """Mark the asset as encrypted."""
-        if not self.encrypted:
-            self.encrypted = True
-            print(f"{self.name} is now encrypted.")
+        if not self.get_encrypted():
+            self.__encrypted = True
+            print(f"{self.get_name()} is now encrypted.")
         else:
-            print(f"{self.name} is already encrypted.")
+            print(f"{self.get_name()} is already encrypted.")
 
     def decrypt(self):
         """Mark the asset as decrypted."""
-        if self.encrypted:
-            self.encrypted = False
-            print(f"{self.name} has been decrypted.")
+        if self.get_encrypted():
+            self.__encrypted = False
+            print(f"{self.get_name()} has been decrypted.")
         else:
-            print(f"{self.name} is already decrypted.")
+            print(f"{self.get_name()} is already decrypted.")
+
+
+    def get_name(self):
+        return self.__name
+
+    def get_description(self):
+        return self.__description
+
+    def get_encrypted(self):
+        return self.__encrypted
+
+
 
     def __str__(self):#str name
-        if self.encrypted:
-            return f"{self.name}: {self.description} [Encrypted]"
+        if self.get_encrypted():
+            return f"{self.get_name()}: {self.get_description()} [Encrypted]"
         else:
-            return f"{self.name}: {self.description}"
+            return f"{self.get_name()}: {self.get_description()}"
 
 
 
