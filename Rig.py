@@ -63,3 +63,8 @@ class Rig:
                 return asset
         print(f"{asset_name} not found in {self.name}.")
         return None
+
+    def upgrade(self):
+        """Increase the rig's upgrade level."""
+        self.upgrade_level += 1
+        print(f"{self.name} upgraded to Level {self.upgrade_level}.")
