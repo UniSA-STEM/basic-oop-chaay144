@@ -53,3 +53,70 @@ class Hacker:
 
     def _blocked(self):
         return self.__trace_level > TRACE_LIMIT
+
+    def acquire_rig(self, rig_name):
+        if self.__rig is None:
+            token = self._pick_item("CryptoToken")
+            if token is not None:
+                self.__rig = Rig(rig_name)
+                print(f"{self.get_name()} activated rig '{rig_name}'.")
+                return True
+        return False
+
+    def upgrade_rig(self):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig found.")
+            return False
+        if self._blocked():
+            print("Trace too high.")
+            return False
+
+        patch = self._pick_item("Hardware Patch")
+        if patch is None:
+            print("No Hardware Patch available.")
+            return False
+
+        rig_obj.upgrade()
+        return True
+
+    def repair_rig(self):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig to repair.")
+            return False
+
+        token = self._pick_item("CryptoToken")
+        if token is None:
+            print("No CryptoToken available.")
+            return False
+
+        rig_obj.repair()
+        return True
+
+    def store_to_rig(self, asset_name):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig to store asset.")
+            return False
+
+        asset_obj = self._pick_item(asset_name)
+        if asset_obj is None:
+            print(f"{asset_name} not found in inventory.")
+            return False
+
+        return rig_obj.store_asset(asset_obj)
+
+    def retrieve_from_rig(self, asset_name):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig to retrieve asset from.")
+            return False
+
+        item = rig_obj.release_asset(asset_name)
+        if item is None:
+            print(f"{asset_name} not found in rig.")
+            return False
+
+        self.__inventory.append(item)
+        return True
