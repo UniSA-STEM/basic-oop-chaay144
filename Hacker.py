@@ -94,3 +94,27 @@ class Hacker:
         self.__inventory.append(item)
         return True
 
+    def toggle_encryption(self, location, asset_name):
+        target = None
+
+        if location == "inventory":
+            target = next((a for a in self.__inventory if a.get_name() == asset_name), None)
+
+        elif location == "rig" and self.__rig is not None:
+            storage = self.__rig.get_storage()
+            target = next((a for a in storage if a.get_name() == asset_name), None)
+
+        else:
+            print("Invalid location or no rig.")
+            return False
+
+        if target is None:
+            print("Asset not found.")
+            return False
+
+        if target.get_encrypted():
+            target.decrypt()
+        else:
+            target.encrypt()
+        return True
+
