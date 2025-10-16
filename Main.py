@@ -8,32 +8,121 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 """
 
 
+
+# main.py
+"""
+Minimal main for 'Into the Grid' — updated per request.
+- Hackers: Ansh and Rival
+- More assets added
+- Two fights (Ansh -> Rival, Rival -> Ansh)
+Author: Ansh Channa (110369235)
+"""
+
 from asset import Asset
-from Rig import Rig
+from Hacker import Hacker
 
-#Checking the Asset class
-token = Asset("CryptoToken", "Used to acquire or repair rigs")
-chip = Asset("Security Chip", "Used for encryption and decryption")
+print("\n=== Into the Grid — Minimal Run (Ansh vs Rival) ===\n")
 
-print(token)
-chip.encrypt()
-print(chip)
-chip.decrypt()
-print(chip)
+# Create hackers
+ansh = Hacker("Ansh")
+rival = Hacker("Rival")
 
+# Seed inventories with extra assets so flows can run
+ansh.get_inventory().extend([
+    Asset("Hardware Patch", "Used to upgrade rigs."),
+    Asset("Security Chip", "Used to encrypt/decrypt assets."),
+    Asset("CryptoToken", "Used to acquire or repair rigs.")  # extra token
+])
 
+rival.get_inventory().extend([
+    Asset("Hardware Patch", "Used to upgrade rigs."),
+    Asset("CryptoToken", "Used to acquire or repair rigs."),
+    Asset("CryptoToken", "Backup token.")
+])
 
-#Checking the Rig class
-r = Rig("CyberDeck")
-token = Asset("CryptoToken", "Used to buy rigs")
-chip = Asset("Security Chip", "For encryption")
-chip.encrypt()
+# Each acquires a rig (consumes one CryptoToken if your code handles it)
+ansh.acquire_rig("AnshFrame")
+rival.acquire_rig("RivalCore")
 
-r.store_asset(token)   # should store
-r.store_asset(chip)    # should block (encrypted)
-r.release_asset("CryptoToken")  # should release
-r.release_asset("Security Chip")  # should block
-print(r)
+print(ansh)
+print(rival)
+print(ansh.get_rig())
+print(rival.get_rig())
 
+# Upgrade both rigs (consume patch if available in your Hacker implementation)
+ansh.upgrade_rig()
+rival.upgrade_rig()
+print("\nAfter upgrades:")
+print(ansh.get_rig())
+print(rival.get_rig())
 
+# Populate storages with several assets (no store/release calls; append directly)
+ansh.get_rig().get_storage().extend([
+    Asset("Data Spike", "Used in battles."),
+    Asset("Removable Drive", "Used to extract assets"),
+    Asset("Repair Kit", "Spare repair supplies"),
+    Asset("Core Fragment", "Minor valuable fragment")
+])
 
+rival.get_rig().get_storage().extend([
+    Asset("Data Spike", "Used in battles."),
+    Asset("Removable Drive", "Used to extract assets"),
+    Asset("Encrypted Log", "Sensitive logs"),
+    Asset("Sector Map", "Useful navigation data")
+])
+
+# Encrypt one of Rival's assets to show it won't be stolen
+for a in rival.get_rig().get_storage():
+    if a.get_name() == "Encrypted Log":
+        a.encrypt()
+        break
+
+print("\n-- Before first fight --")
+print(ansh.get_rig())
+print(rival.get_rig())
+
+# First fight: Ansh attacks Rival twice
+ansh.launch_data_spike(rival)
+ansh.launch_data_spike(rival)
+
+print("\n-- After first fight --")
+print(ansh)
+print(ansh.get_rig())
+print(rival.get_rig())
+
+# Rival prepares a counter-attack: add spikes to Rival's rig storage
+rival.get_rig().get_storage().append(Asset("Data Spike", "Used in battles."))
+rival.get_rig().get_storage().append(Asset("Data Spike", "Used in battles."))
+rival.get_rig().get_storage().append(Asset("Removable Drive", "Used to extract assets"))
+
+print("\n-- Rival counter-attacks --")
+rival.launch_data_spike(ansh)
+rival.launch_data_spike(ansh)
+
+print("\n-- After counter-attack --")
+print(rival)
+print(rival.get_rig())
+print(ansh.get_rig())
+
+# Trace threshold demonstration: push Ansh trace high then attempt an upgrade
+print("\n-- Forcing Ansh's trace above limit --")
+for _ in range(6):
+    # ensure there is a spike to use
+    ansh.get_rig().get_storage().append(Asset("Data Spike", "Used in battles."))
+    ansh.launch_data_spike(rival)
+
+print(f"Ansh trace level: {ansh.get_trace_level()}")
+ansh.get_inventory().append(Asset("Hardware Patch", "Used to upgrade rigs."))
+ansh.upgrade_rig()  # should be blocked if trace > limit
+
+# Repair demonstration for both rigs
+print("\n-- Repair attempts --")
+ansh.get_rig().take_hit()
+ansh.repair_rig()  # may fail if no CryptoToken
+ansh.get_inventory().append(Asset("CryptoToken", "Used to acquire or repair rigs."))
+ansh.repair_rig()
+
+rival.get_rig().take_hit()
+rival.repair_rig()  # may succeed if rival has token
+
+print("\n=== Run complete ===\n")
