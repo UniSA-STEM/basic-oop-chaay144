@@ -80,5 +80,17 @@ class Hacker:
         # Rig.store_asset expects an Asset instance
         return self.__rig.store_asset(asset_obj)
 
+    def retrieve_from_rig(self, asset_name):
+        """Retrieve an asset from rig storage into inventory (uses Rig.release_asset)."""
+        if self.__rig is None:
+            print("No rig to retrieve asset from.")
+            return False
 
+        item = self.__rig.release_asset(asset_name)
+        if item is None:
+            print(f"{asset_name} not found in rig.")
+            return False
+
+        self.__inventory.append(item)
+        return True
 
