@@ -141,5 +141,46 @@ class Hacker:
             print(f"{self.get_name()} hit {target_hacker.get_name()}'s rig.")
             if target_rig.is_broken():
                 # try extraction if broken
-                self.extract_from_broken(target_hacker)
+                self._extract_from_broken(target_hacker)
         return True
+
+    def _extract_from_broken(self, target_hacker):
+        if self.__rig is None:
+            print("No rig to perform extraction.")
+            return False
+
+        # try to consume Removable Drive from own rig storage first
+        drive = self.__rig.release_asset("Removable Drive")
+        if drive is None:
+            # try to consume from inventory
+            drive = self._pick_item("Removable Drive")
+            if drive is None:
+                print("No Removable Drive.")
+                return False
+
+        target_rig = target_hacker.get_rig()
+        if target_rig is None:
+            print("Target has no rig.")
+            return False
+
+        # search target storage for first unencrypted asset
+        storage = target_rig.get_storage()
+        i = 0
+        while i < len(storage):
+            candidate = storage[i]
+            if candidate is not None and not candidate.get_encrypted():
+                # remove from target storage and add to our inventory
+                # use target_rig.release_asset to remove by name
+                stolen = target_rig.release_asset(candidate.get_name())
+                if stolen:
+                    self.__inventory.append(stolen)
+                    print(f"Extracted {stolen.get_name()} from {target_hacker.get_name()}.")
+                    return True
+                else:
+                    # if release_asset blocked for some reason, continue
+                    i += 1
+                    continue
+            i += 1
+
+        print("No unencrypted assets found.")
+        return False
