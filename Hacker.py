@@ -96,30 +96,36 @@ class Hacker:
 
     def toggle_encryption(self, location, asset_name):
         """
-            Toggle encryption for an asset in 'inventory' or 'rig'.
+        Toggle encryption for an asset in 'inventory' or 'rig'.
         """
-        target = None
-
         if location == "inventory":
-            target = next((a for a in self.__inventory if a.get_name() == asset_name), None)
+            for a in self.__inventory:
+                if a.get_name() == asset_name:
+                    if a.get_encrypted():
+                        a.decrypt()
+                    else:
+                        a.encrypt()
+                    return True
+
+            print("Asset not found.")
+            return False
 
         elif location == "rig" and self.__rig is not None:
             storage = self.__rig.get_storage()
-            target = next((a for a in storage if a.get_name() == asset_name), None)
+            for a in storage:
+                if a.get_name() == asset_name:
+                    if a.get_encrypted():
+                        a.decrypt()
+                    else:
+                        a.encrypt()
+                    return True
+
+            print("Asset not found.")
+            return False
 
         else:
             print("Invalid location or no rig.")
             return False
-
-        if target is None:
-            print("Asset not found.")
-            return False
-
-        if target.get_encrypted():
-            target.decrypt()
-        else:
-            target.encrypt()
-        return True
 
     def launch_data_spike(self, target_hacker):
         """Use one Data Spike from own rig to hit target_hacker's rig."""
