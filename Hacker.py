@@ -95,6 +95,9 @@ class Hacker:
         return True
 
     def toggle_encryption(self, location, asset_name):
+        """
+            Toggle encryption for an asset in 'inventory' or 'rig'.
+        """
         target = None
 
         if location == "inventory":
@@ -118,3 +121,25 @@ class Hacker:
             target.encrypt()
         return True
 
+    def launch_data_spike(self, target_hacker):
+        """Use one Data Spike from own rig to hit target_hacker's rig."""
+        if self.__rig is None:
+            print("No rig to launch spike.")
+            return False
+
+        spike = self.__rig.release_asset("Data Spike")
+        if spike is None:
+            print("No Data Spike in rig.")
+            return False
+
+        # increase trace
+        self.__trace_level += 1
+
+        target_rig = target_hacker.get_rig()
+        if target_rig is not None:
+            target_rig.take_hit()
+            print(f"{self.get_name()} hit {target_hacker.get_name()}'s rig.")
+            if target_rig.is_broken():
+                # try extraction if broken
+                self.extract_from_broken(target_hacker)
+        return True
