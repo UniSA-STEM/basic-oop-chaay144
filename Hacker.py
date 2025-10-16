@@ -51,5 +51,34 @@ class Hacker:
             i += 1
         return None
 
+    def acquire_rig(self, rig_name):
+        """Consume a CryptoToken and acquire a new Rig (by name)."""
+        if self.__rig is not None:
+            print(f"{self.get_name()} already has a rig.")
+            return False
+
+        token = self._pick_item("CryptoToken")
+        if token is None:
+            print(f"{self.get_name()} has no CryptoToken to acquire a rig.")
+            return False
+
+        self.__rig = Rig(rig_name)
+        print(f"{self.get_name()} activated rig '{self.__rig.get_name()}'.")
+        return True
+
+    def store_to_rig(self, asset_name):
+        """Move an item from inventory into rig storage (uses Rig.store_asset)."""
+        if self.__rig is None:
+            print("No rig to store asset.")
+            return False
+
+        asset_obj = self._pick_item(asset_name)
+        if asset_obj is None:
+            print(f"{asset_name} not found in inventory.")
+            return False
+
+        # Rig.store_asset expects an Asset instance
+        return self.__rig.store_asset(asset_obj)
+
 
 
