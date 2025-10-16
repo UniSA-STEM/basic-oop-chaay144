@@ -80,7 +80,7 @@ class Rig:
         Add an asset to rig storage (if not encrypted).
         Returns True if stored, False if blocked.
         """
-        if asset.encrypt:
+        if asset.get_encrypted():
             print(f"{asset.name} is encrypted and cannot be stored.")
             return False
 
@@ -90,9 +90,9 @@ class Rig:
 
     def release_asset(self, asset_name):
         """Remove and return an asset from storage by name."""
-        for asset in self.get_storage():
+        for asset in list(self.get_storage()):
             if asset.get_name() == asset_name:
-                if asset.encrypt:
+                if asset.get_encrypted():
                     print(f"{asset.get_name()} is encrypted and cannot be released.")
                     return None
                 self.get_storage().remove(asset)
