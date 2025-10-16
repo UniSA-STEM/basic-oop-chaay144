@@ -206,3 +206,37 @@ class Hacker:
 
         rig_name = self.__rig.get_name() if (self.__rig is not None) else "No Rig"
         return f"Hacker<{self.__name}> rig={rig_name} trace={self.__trace_level} | Inventory:  {inv}"
+
+    def upgrade_rig(self):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig found.")
+            return False
+        if self._blocked():
+            print("Trace too high.")
+            return False
+
+        patch = self._pick_item("Hardware Patch")
+        if patch is None:
+            print("No Hardware Patch available.")
+            return False
+
+        rig_obj.upgrade()
+        return True
+
+    def _blocked(self):
+        return self.__trace_level > TRACE_LIMIT
+
+    def repair_rig(self):
+        rig_obj = self.get_rig()
+        if rig_obj is None:
+            print("No rig to repair.")
+            return False
+
+        token = self._pick_item("CryptoToken")
+        if token is None:
+            print("No CryptoToken available.")
+            return False
+
+        rig_obj.repair()
+        return True

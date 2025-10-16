@@ -81,11 +81,11 @@ class Rig:
         Returns True if stored, False if blocked.
         """
         if asset.get_encrypted():
-            print(f"{asset.name} is encrypted and cannot be stored.")
+            print(f"{asset.get_name()} is encrypted and cannot be stored.")
             return False
 
         self.get_storage().append(asset)
-        print(f"{asset.name} stored in {self.get_name()}.")
+        print(f"{asset.get_name()} stored in {self.get_name()}.")
         return True
 
     def release_asset(self, asset_name):
