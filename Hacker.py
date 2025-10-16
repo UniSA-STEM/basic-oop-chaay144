@@ -42,3 +42,14 @@ class Hacker:
     def set_rig(self, rig_obj):
         self.__rig = rig_obj
 
+    def _pick_item(self, asset_name):
+        i = 0
+        while i < len(self.__inventory):
+            item = self.__inventory[i]
+            if item is not None and item.get_name() == asset_name:
+                return self.__inventory.pop(i)
+            i += 1
+        return None
+
+
+
