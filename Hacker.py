@@ -184,3 +184,19 @@ class Hacker:
 
         print("No unencrypted assets found.")
         return False
+
+    def _str_(self):
+        # build inventory display using get_name() and get_encrypted()
+        if not self.__inventory:
+            inv = "Empty"
+        else:
+            names = []
+            for a in self.__inventory:
+                nm = a.get_name()
+                if a.get_encrypted():
+                    nm += " [E]"
+                names.append(nm)
+            inv = ", ".join(names)
+
+        rig_name = self.__rig.get_name() if (self.__rig is not None) else "No Rig"
+        return f"Hacker<{self.__name}> rig={rig_name} trace={self.__trace_level} | Inventory:  {inv}"
