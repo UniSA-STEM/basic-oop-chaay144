@@ -10,39 +10,48 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 from asset import Asset
 from Rig import Rig
 
-TRACE_LIMIT = 5
+TRACE_LIMIT = 5 # max trace before upgrade gets blocked
 
 class Hacker:
     def __init__(self, name):
+        # set up hacker name, starting trace and token
         self.__name = name
         self.__trace_level = 0
         self.__inventory = [Asset("CryptoToken", "Used to acquire or repair rigs.")]
         self.__rig = None
 
     def get_name(self):
+        # get hacker’s name
         return self.__name
 
     def set_name(self, new_name):
+        # change hacker name if valid
         if isinstance(new_name, str) and new_name.strip():
             self.__name = new_name
 
     def get_trace_level(self):
+        # check current trace level
         return self.__trace_level
 
     def set_trace_level(self, value):
+        # update trace level
         if isinstance(value, int) and value >= 0:
             self.__trace_level = value
 
     def get_inventory(self):
+        # check what’s in the inventory
         return self.__inventory
 
     def get_rig(self):
+        # check if hacker has a rig
         return self.__rig
 
     def set_rig(self, rig_obj):
+        # set hacker's rig
         self.__rig = rig_obj
 
     def _pick_item(self, asset_name):
+        # take an item out of inventory by name
         i = 0
         while i < len(self.__inventory):
             item = self.__inventory[i]
@@ -81,7 +90,7 @@ class Hacker:
         return self.__rig.store_asset(asset_obj)
 
     def retrieve_from_rig(self, asset_name):
-        """Retrieve an asset from rig storage into inventory (uses Rig.release_asset)."""
+        """Retrieve an asset from rig storage into inventory ."""
         if self.__rig is None:
             print("No rig to retrieve asset from.")
             return False
