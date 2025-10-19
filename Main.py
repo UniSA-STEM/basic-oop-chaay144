@@ -7,23 +7,12 @@ Username: chaay144
 This is my own work as defined by the University's Academic Misconduct Policy.
 """
 
-
-
-# main.py
-"""
-Minimal main for 'Into the Grid' — updated per request.
-- Hackers: Ansh and Rival
-- More assets added
-- Two fights (Ansh -> Rival, Rival -> Ansh)
-Author: Ansh Channa (110369235)
-"""
-
 from asset import Asset
 from Hacker import Hacker
 
 print("\n=== Into the Grid — Minimal Run (Ansh vs Rival) ===\n")
 
-# Create hackers
+# Creating the hackers
 ansh = Hacker("Ansh")
 rival = Hacker("Rival")
 
@@ -40,7 +29,7 @@ rival.get_inventory().extend([
     Asset("CryptoToken", "Backup token.")
 ])
 
-# Each acquires a rig (consumes one CryptoToken if your code handles it)
+# Each acquires a rig
 ansh.acquire_rig("AnshFrame")
 rival.acquire_rig("RivalCore")
 
@@ -49,7 +38,7 @@ print(rival)
 print(ansh.get_rig())
 print(rival.get_rig())
 
-# Upgrade both rigs (consume patch if available in your Hacker implementation)
+# Upgrade both rigs
 ansh.upgrade_rig()
 rival.upgrade_rig()
 print("\nAfter upgrades:")
