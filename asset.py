@@ -8,13 +8,14 @@ This is my own work as defined by the University's Academic Misconduct Policy.
 """
 
 class Asset:
+    # store basic info for each item the hacker can hold
     def __init__(self, name, description):
         self.__name = name
         self.__description = description
-        self.__encrypted = False
+        self.__encrypted = False # starts unencrypted
 
     def encrypt(self):
-        """Mark the asset as encrypted."""
+            # mark an asset as encrypted if it’s not already
         if not self.get_encrypted():
             self.__encrypted = True
             print(f"{self.get_name()} is now encrypted.")
@@ -22,7 +23,7 @@ class Asset:
             print(f"{self.get_name()} is already encrypted.")
 
     def decrypt(self):
-        """Mark the asset as decrypted."""
+        # remove encryption if the asset is currently locked
         if self.get_encrypted():
             self.__encrypted = False
             print(f"{self.get_name()} has been decrypted.")
@@ -31,17 +32,21 @@ class Asset:
 
 
     def get_name(self):
+        # return the asset’s name
         return self.__name
 
     def get_description(self):
+        # return what the asset does
         return self.__description
 
     def get_encrypted(self):
+        # check if the asset is encrypted or not
         return self.__encrypted
 
 
 
-    def __str__(self):#str name
+    def __str__(self):
+        # print asset info in a simple readable way
         if self.get_encrypted():
             return f"{self.get_name()}: {self.get_description()} [Encrypted]"
         else:
