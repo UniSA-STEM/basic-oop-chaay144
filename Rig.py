@@ -10,6 +10,7 @@ import random
 from asset import Asset
 class Rig:
     def __init__(self, name):
+        # basic rig setup with a name and starting gear
         self.__name = name
         self.__damage = 0
         self.__broken = False
@@ -20,37 +21,46 @@ class Rig:
                       ]
 
     def get_name(self):
+        # get the rig’s name
         return self.__name
 
     def set_name(self, new_name):
+        # set the rig’s name
         if new_name is not None and isinstance(new_name, str):
             self.__name = new_name
 
     def get_damage(self):
+        # track damage
         return self.__damage
 
     def set_damage(self, value):
+        # update damage level
         if value >= 0:
             self.__damage = value
 
     def is_broken(self):
+        # check if rig is broken
         return self.__broken
 
     def set_broken(self, state):
-
+        # manually break or unbreak rig
         self.__broken = state
 
     def get_upgrade_level(self):
+        # check upgrade level
         return self.__upgrade_level
 
     def set_upgrade_level(self, level):
+        # update upgrade level
         if level >= 0:
             self.__upgrade_level = level
 
     def get_storage(self):
+        # access what’s stored inside the rig
         return self.__storage
 
     def generate_asset(self):
+        # randomly make new items for the rig
         asset_pool = [
             ("CryptoToken", "Used to acquire or repair rigs. (H)"),
             ("Data Spike", "Used in battles. (R)"),
@@ -67,7 +77,7 @@ class Rig:
         return new_asset
 
     def condition(self):
-        """Return condition string based on damage and upgrade level."""
+         # tell me how damaged or upgraded the rig is
         if self.is_broken():
             return f"Broken (Level {self.get_upgrade_level()})"
         elif self.__damage == 0:
@@ -76,10 +86,7 @@ class Rig:
             return f"Damaged (Level {self.get_upgrade_level()})"
 
     def store_asset(self, asset):
-        """
-        Add an asset to rig storage (if not encrypted).
-        Returns True if stored, False if blocked.
-        """
+        # store item in rig only if it’s not encrypted
         if asset.get_encrypted():
             print(f"{asset.get_name()} is encrypted and cannot be stored.")
             return False
@@ -89,7 +96,7 @@ class Rig:
         return True
 
     def release_asset(self, asset_name):
-        """Remove and return an asset from storage by name."""
+        # take item out of the rig by name
         for asset in list(self.get_storage()):
             if asset.get_name() == asset_name:
                 if asset.get_encrypted():
@@ -107,7 +114,7 @@ class Rig:
         print(f"{self.get_name()} upgraded to Level {self.get_upgrade_level()}.")
 
     def repair(self):
-        """Repair the rig if damaged (cost logic handled by Hacker)."""
+        # fix the rig if it’s damaged or broken
         if self.__broken or self.get_damage() > 0:
             self.__damage = 0
             self.__broken = False
@@ -116,7 +123,7 @@ class Rig:
             print(f"{self.get_name()} does not need repairs.")
 
     def take_hit(self):
-        """Increase rig damage; mark broken if limit reached."""
+        # rig takes a hit, damage goes up, can break if weak
         if not self.is_broken():
             self.__damage += 1
             print(f"{self.get_name()} took a hit! Damage: {self.get_damage()}")
@@ -129,6 +136,7 @@ class Rig:
             print(f"{self.get_name()} is already broken.")
 
     def __str__(self):
+        # print rig info in a short format
         if len(self.__storage) == 0:
             stored_names = "Empty"
         else:
